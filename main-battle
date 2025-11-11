@@ -21,7 +21,7 @@ namespace TurnBased {
 
     //% block
     //%group="Damage"
-    export function youGetDamged(damage: number) {
+    export function youGetDamaged(damage: number) {
 
     }
 
