@@ -3,27 +3,69 @@
  * Turn-based RPG battling in Makecode Arcade!
  */
 
-//% color="#563465"
-//% groups='["Damage", "Music", "Name", "Boss"]'
+//% color="#f00f00" icon="\uf086"
+//% groups='["Damage", "Music", "Name", "Boss","Menus","EASTER EGG!!!!","Vital"]'
 namespace TurnBased {
 
     //% block
+    //%group="Name"
     export function SpawnEnemy(enemy: string, image: any) {
 
     }
 
     //% block
+    //%group="Damage"
     export function EnemyTakesDamage(enemy: string, damage: number) {
         story.printDialog("The " + enemy + " takes " + damage + " damage!", 90, 110, 50, 150)
     }
 
     //% block
-    export function youGetDamged(enemy: string, damage: number) {
+    //%group="Damage"
+    export function youGetDamged(damage: number) {
 
     }
 
     //% block
+    //%group="Music"
     export function battleMusic(music: any) {
 
+    }
+
+
+    //% block
+    //%group="Menus"
+    export function openMainBattleMenu() {
+
+blockMenu.showMenu(
+[
+"Fight",
+"Spell",
+"Item",
+"Run"
+],
+2,
+MenuLocation.TopHalf
+)
+    }
+
+
+    //% block
+    //%group="Boss"
+    export function SpawnBoss(enemy: string, image: any) {
+
+    }
+
+
+    //% block
+    //%group="Boss"
+    export function BossTakesDamage(enemy: string, damage: number) {
+        story.printDialog(enemy + " takes " + damage + " damage!", 90, 110, 50, 150)
+    }
+
+
+    //% block
+    //%group="Vital"
+    export function StartBattling() {
+        multigame.startGame("thefightforallofmakecode")
     }
 }
