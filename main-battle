@@ -1,0 +1,29 @@
+
+/**
+ * Turn-based RPG battling in Makecode Arcade!
+ */
+
+//% color="#563465"
+//% groups='["Damage", "Music", "Name", "Boss"]'
+namespace TurnBased {
+
+    //% block
+    export function SpawnEnemy(enemy: string, image: any) {
+
+    }
+
+    //% block
+    export function EnemyTakesDamage(enemy: string, damage: number) {
+        story.printDialog("The " + enemy + " takes " + damage + " damage!", 90, 110, 50, 150)
+    }
+
+    //% block
+    export function youGetDamged(enemy: string, damage: number) {
+
+    }
+
+    //% block
+    export function battleMusic(music: any) {
+
+    }
+}
