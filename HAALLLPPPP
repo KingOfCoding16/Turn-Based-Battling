@@ -1,0 +1,90 @@
+namespace SpriteKind {
+    export const visor = SpriteKind.create()
+    export const Car = SpriteKind.create()
+    export const ghost = SpriteKind.create()
+    export const thing = SpriteKind.create()
+}
+function finishBustin () {
+    if (info.score() >= ghostbust) {
+        game.setGameOverMessage(true, "Busted: " + info.score())
+        game.gameOver(true)
+    } else {
+        game.setGameOverMessage(false, "Gozer has won.")
+        game.gameOver(false)
+    }
+}
+scene.onHitWall(SpriteKind.Player, function (sprite, location) {
+    if (tiles.tileAtLocationEquals(location, assets.tile`myTile5`)) {
+        if (game.ask("End game?")) {
+            finishBustin()
+        }
+    }
+})
+overworld.onMapLoaded(function (overworldColumn, overworldRow, map) {
+    if (!(mySprite.overlapsWith(myGhost))) {
+        sprites.destroyAllSpritesOfKind(SpriteKind.ghost)
+    }
+    myGhost = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . d d d d d . . . . . . 
+        . . . . d d d d d d d . . . . . 
+        . . . . d 2 2 d 2 2 d . . . . . 
+        . . . . d d 2 d 2 d d . . . . . 
+        . . . . d d d d d d d . . . . . 
+        . . . . d d d f d d d . . . . . 
+        . . . . . d d d d d . . . . . . 
+        . . d d . d d d d d . d d . . . 
+        . . d d d d d d d d d d d . . . 
+        . . . d d d d d d d d d . . . . 
+        . . . . . d d d d d . . . . . . 
+        . . . . . d d d d d d . . . . . 
+        . . . . . . d d d d d d d . . . 
+        . . . . . . . d d d d d . . . . 
+        `, SpriteKind.ghost)
+    tiles.placeOnTile(myGhost, tiles.getTileLocation(randint(0, 10), randint(0, 8)))
+})
+scene.onOverlapTile(SpriteKind.ghost, assets.tile`myTile1`, function (sprite, location) {
+    sprites.destroy(sprite, effects.fire, 500)
+    info.changeScoreBy(1)
+})
+info.onCountdownEnd(function () {
+    finishBustin()
+})
+sprites.onOverlap(SpriteKind.ghost, SpriteKind.Player, function (sprite, otherSprite) {
+    sprite.follow(otherSprite)
+})
+let myGhost: Sprite = null
+let mySprite: Sprite = null
+let ghostbust = 0
+ghostbust = 3
+overworld.setOverworld16(overworld.createMap16(
+overworld.mapRow16(overworld.tilemap16(tilemap`level2`), overworld.tilemap16(tilemap`level3`), overworld.tilemap16(tilemap`level4`)),
+overworld.mapRow16(overworld.tilemap16(tilemap`level8`), overworld.tilemap16(tilemap`level9`), overworld.tilemap16(tilemap`level10`)),
+overworld.mapRow16(overworld.tilemap16(tilemap`level14`), overworld.tilemap16(tilemap`level15`), overworld.tilemap16(tilemap`level16`))
+))
+mySprite = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . b b b . . . . . . 
+    . . . . . . . f 3 f . . . . . . 
+    . . . . . . . 3 3 3 . . . . . . 
+    . . . . 2 2 2 1 1 1 . . . . . . 
+    . . . . 2 3 3 1 1 2 3 . . . . . 
+    . . . . 2 . . 1 1 1 3 . . . . . 
+    . . . . . . . 8 8 8 . . . . . . 
+    . . . . . . . 8 . 8 . . . . . . 
+    . . . . . . . c . c . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Player)
+overworld.loadMapInDirection(CollisionDirection.Right)
+overworld.loadMapInDirection(CollisionDirection.Left)
+overworld.loadMapInDirection(CollisionDirection.Bottom)
+overworld.setPlayerSprite(mySprite)
+controller.moveSprite(mySprite, 43, 43)
+overworld.setAnimationType(overworld.AnimationType.Scroll)
+info.startCountdown(45)
